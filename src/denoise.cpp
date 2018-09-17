@@ -14,8 +14,8 @@ Eigen::MatrixXd Compute_Channel_Denoise(Eigen::MatrixXd a, int perc)
   auto singular = svd.singularValues();
 
   // Zero out perc% of the smallest singualar values
-  int size = singular.size();
-  for (int i = size * (1 - 1/perc); i < size; i++)
+  auto size = singular.size();
+  for (auto i = size * (1 - 1/perc); i < size; i++)
     singular[i] = 0.0;
 
 
