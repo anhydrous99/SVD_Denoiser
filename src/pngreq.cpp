@@ -17,6 +17,17 @@ void abort_(const char * s, ...)
   abort();
 }
 
+png_byte to_png_byte(double input)
+{
+	png_byte mm = std::numeric_limits<png_byte>::max();
+	png_byte ll = std::numeric_limits<png_byte>::lowest();
+	if (input > mm)
+		return mm;
+	else if (input < ll)
+		return ll;
+	else
+		return static_cast<png_byte>(input);
+}
 
 void pngreq::read_png_file(char* file_name)
 {
@@ -222,9 +233,9 @@ void pngreq::set_rgb_channels(Eigen::MatrixXd& R, Eigen::MatrixXd& G, Eigen::Mat
     for (x = 0; x < width; x++)
     {
       png_byte* ptr = &(row[x*3]);
-      ptr[0] = (png_byte) R(x,y);
-      ptr[1] = (png_byte) G(x,y);
-      ptr[2] = (png_byte) B(x,y);
+      ptr[0] = to_png_byte(R(x,y));
+      ptr[1] = to_png_byte(G(x,y));
+      ptr[2] = to_png_byte(B(x,y));
     }
   }
 }
@@ -245,10 +256,10 @@ void pngreq::set_rgba_channels(Eigen::MatrixXd& R, Eigen::MatrixXd& G,
     for (x = 0; x < width; x++)
     {
       png_byte* ptr = &(row[x*4]);
-      ptr[0] = (png_byte) R(x,y);
-      ptr[1] = (png_byte) G(x,y);
-      ptr[2] = (png_byte) B(x,y);
-      ptr[3] = (png_byte) A(x,y);
+      ptr[0] = to_png_byte(R(x,y));
+      ptr[1] = to_png_byte(G(x,y));
+      ptr[2] = to_png_byte(B(x,y));
+      ptr[3] = to_png_byte(A(x,y));
     }
   }
 }
@@ -268,7 +279,7 @@ void pngreq::set_gray_channel(Eigen::MatrixXd& G)
     for (x = 0; x < width; x++)
     {
       png_byte* ptr = &(row[x]);
-      ptr[0] = (png_byte) G(x,y);
+      ptr[0] = to_png_byte(G(x,y));
     }
   }
 }
@@ -288,8 +299,8 @@ void pngreq::set_graya_channels(Eigen::MatrixXd& G, Eigen::MatrixXd& A)
     for (x = 0; x < width; y++)
     {
       png_byte* ptr = &(row[x*2]);
-      ptr[0] = (png_byte) G(x,y);
-      ptr[1] = (png_byte) A(x,y);
+      ptr[0] = to_png_byte(G(x,y));
+      ptr[1] = to_png_byte(A(x,y));
     }
   }
 }
