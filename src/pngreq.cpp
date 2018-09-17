@@ -265,7 +265,7 @@ void pngreq::set_gray_channel(Eigen::MatrixXd& G)
   for (y = 0; y < height; y++)
   {
     png_byte* row = row_pointers[y];
-    for (x = 0; x < height; y++)
+    for (x = 0; x < width; x++)
     {
       png_byte* ptr = &(row[x]);
       ptr[0] = (png_byte) G(x,y);
@@ -285,7 +285,7 @@ void pngreq::set_graya_channels(Eigen::MatrixXd& G, Eigen::MatrixXd& A)
   for (y = 0; y < height; y++)
   {
     png_byte* row = row_pointers[y];
-    for (x = 0; x < height; y++)
+    for (x = 0; x < width; y++)
     {
       png_byte* ptr = &(row[x*2]);
       ptr[0] = (png_byte) G(x,y);

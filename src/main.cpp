@@ -8,7 +8,7 @@ int main(int argc, char* argv[])
   // Read PNG Image
   img.read_png_file(argv[1]);
   // DeNoise Image
-  Denoise(img, 20);
+  Denoise(img, std::stoi(argv[3]));
   // Write Image
   img.write_png_file(argv[2]);
   return 0;

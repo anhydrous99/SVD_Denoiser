@@ -15,9 +15,8 @@ Eigen::MatrixXd Compute_Channel_Denoise(Eigen::MatrixXd a, int perc)
 
   // Zero out perc% of the smallest singualar values
   auto size = singular.size();
-  for (auto i = size * (1 - 1/perc); i < size; i++)
-    singular[i] = 0.0;
-
+  for (int i = static_cast<int>(size * (1.0 - static_cast<double>(perc)/100.0)); i < size; i++)
+    singular(i) = 0.0e0;
 
   // recombine the decomposition
   return svd.matrixU() * singular.asDiagonal() * svd.matrixV().transpose();
@@ -86,7 +85,7 @@ int Denoise(pngreq& img, int perc)
     Eigen::MatrixXd newG = Compute_Channel_Denoise(G, perc);
 
     // Set new Image Values
-    img.set_gray_channel(G);
+    img.set_gray_channel(newG);
   }
   else if (color_type == PNG_COLOR_TYPE_GRAY_ALPHA)
   {
