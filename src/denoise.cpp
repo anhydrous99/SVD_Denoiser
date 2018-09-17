@@ -1,4 +1,5 @@
 #include "denoise.h"
+#include <future>
 #include <algorithm>
 #include <iostream>
 
@@ -39,9 +40,12 @@ int Denoise(pngreq& img, int perc)
     img.get_rgb_channels(R, G, B);
 
     // Pass each channel through Compute_Channel_Denoise
-    Eigen::MatrixXd newR = Compute_Channel_Denoise(R, perc);
-    Eigen::MatrixXd newG = Compute_Channel_Denoise(G, perc);
+    std::future<Eigen::MatrixXd> newR_fut = std::async(Compute_Channel_Denoise, R, perc);
+    std::future<Eigen::MatrixXd> newG_fut = std::async(Compute_Channel_Denoise, G, perc);
     Eigen::MatrixXd newB = Compute_Channel_Denoise(B, perc);
+
+    Eigen::MatrixXd newR = newR_fut.get();
+    Eigen::MatrixXd newG = newG_fut.get();
 
     // Set new Image Values
     img.set_rgb_channels(newR, newG, newB);
@@ -58,13 +62,17 @@ int Denoise(pngreq& img, int perc)
     img.get_rgba_channels(R, G, B, A);
 
     // Pass each channel through Compute_Channel_Denoise
-    Eigen::MatrixXd newR = Compute_Channel_Denoise(R, perc);
-    Eigen::MatrixXd newG = Compute_Channel_Denoise(G, perc);
-    Eigen::MatrixXd newB = Compute_Channel_Denoise(B, perc);
+    std::future<Eigen::MatrixXd> newR_fut = std::async(Compute_Channel_Denoise, R, perc);
+    std::future<Eigen::MatrixXd> newG_fut = std::async(Compute_Channel_Denoise, G, perc);
+    std::future<Eigen::MatrixXd> newB_fut = std::async(Compute_Channel_Denoise, B, perc);
     Eigen::MatrixXd newA = Compute_Channel_Denoise(A, perc);
 
+    Eigen::MatrixXd newR = newR_fut.get();
+    Eigen::MatrixXd newG = newG_fut.get();
+    Eigen::MatrixXd newB = newB_fut.get();
+
     // Set new Image Values
-    img.set_rgba_channels(R, G, B, A);
+    img.set_rgba_channels(newR, newG, newB, newA);
   }
   else if (color_type == PNG_COLOR_TYPE_GRAY)
   {
@@ -90,11 +98,13 @@ int Denoise(pngreq& img, int perc)
     img.get_graya_channels(G, A);
 
     // Pass the channels through Compute_Channel_Denoise
-    Eigen::MatrixXd newG = Compute_Channel_Denoise(G, perc);
+    std::future<Eigen::MatrixXd> newG_fut = std::async(Compute_Channel_Denoise, G, perc);
     Eigen::MatrixXd newA = Compute_Channel_Denoise(A, perc);
 
+    Eigen::MatrixXd newG = newG_fut.get();
+
     // Set new Image Values
-    img.set_graya_channels(G, A);
+    img.set_graya_channels(newG, newA);
   }
   else
   {
