@@ -37,7 +37,11 @@ void pngreq::read_png_file(char* file_name)
   FILE *fp = fopen(file_name, "rb");
   if (!fp)
     abort_("[read_png_file] File %s could not be opened for reading\n", file_name);
-  fread(header, 1, 8, fp);
+
+  size_t result = fread(header, 1, 8, fp);
+  if (result != 8) 
+    abort_("[read_png_file] Reading error!");
+
   if (png_sig_cmp((png_const_bytep)header, 0, 8))
     abort_("[read_png_file] File %s is not recognized as a PNG file\n", file_name);
 
