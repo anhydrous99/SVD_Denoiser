@@ -40,7 +40,7 @@ void pngreq::read_png_file(char* file_name)
 
   size_t result = fread(header, 1, 8, fp);
   if (result != 8) 
-    abort_("[read_png_file] Reading error!");
+    abort_("[read_png_file] Reading error!\n");
 
   if (png_sig_cmp((png_const_bytep)header, 0, 8))
     abort_("[read_png_file] File %s is not recognized as a PNG file\n", file_name);
