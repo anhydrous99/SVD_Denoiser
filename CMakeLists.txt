@@ -17,9 +17,9 @@ find_package(PNG CONFIG REQUIRED)
 find_package(Eigen3 CONFIG REQUIRED)
 find_package(OpenMP REQUIRED)
 
-include_directories(${LAPACK_lapack_LIBRARIES})
-
-set(CMAKE_BUILD_TYPE Debug)
+if(NOT CMAKE_BUILD_TYPE)
+  set(CMAKE_BUILD_TYPE Release)
+endif(NOT CMAKE_BUILD_TYPE)
 
 # Bring in project headers
 include_directories(include)
