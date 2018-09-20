@@ -1,6 +1,7 @@
 # SVD Denoiser
 
-Uses the Hunter package manager to download and compile the two dependencies, libpng and Eigen3.
+Uses the selective elimination of singular values from SVD Decomposition to try to clean up noise from Images. 
+To compile cmake is needed!
 
 ## Linux
 ```
@@ -10,3 +11,5 @@ mkdir build && cd build
 cmake ..
 make
 ```
+## Windows
+Use the CMake GUI and set the toolkit to the 64bit one. Afterwhich, use the Visual Studio project cmake creates to compile.
