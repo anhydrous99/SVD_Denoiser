@@ -12,4 +12,4 @@ cmake ..
 make
 ```
 ## Windows
-Use the CMake GUI and set the toolkit to the 64bit one. Afterwhich, use the Visual Studio project cmake creates to compile.
+Use the CMake GUI and set the toolkit to the 64bit one. Afterwhich, use the Visual Studio project that cmake creates to compile.
